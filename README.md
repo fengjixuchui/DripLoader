@@ -1,7 +1,9 @@
 # DripLoader (PoC)
 ![msbuild](https://github.com/xinbailu/DripLoader/actions/workflows/msbuild.yml/badge.svg)
 
-Evasive shellcode loader for bypassing event-based injection detection, without necessarily suppressing event collection (still added direct syscalls, just so I don't have to deal with AV). The project is aiming to highlight limitations of event-driven injection identification, and show the need for more advanced memory scanning and smarter local agent software inventories in EDR.
+Evasive shellcode loader for bypassing event-based injection detection, without necessarily suppressing event collection. The project is aiming to highlight limitations of event-driven injection identification, and show the need for more advanced memory scanning and smarter local agent software inventories in EDR.
+
+![image](https://user-images.githubusercontent.com/32537788/119597324-13a7fe00-bde1-11eb-987a-38180ad6574b.png)
 
 ## DripLoader evades common EDRs by:
 - using the most risky APIs possible like `NtAllocateVirtualMemory` and `NtCreateThreadEx`
@@ -18,7 +20,7 @@ Evasive shellcode loader for bypassing event-based injection detection, without 
 - Overwrites prologue of one `ntdll` function in the remote process memory space with a `jmp` to our base
 - Drops a thread on that trampoline 
 
-I'll explain the thinking behind each step in a blog post coming end of the week.
+I'll explain some of the thinking here: https://blog.redbluepurple.io/offensive-research/bypassing-injection-detection
 
 ## And so
 - It's able to fully bypass many EDR injection detections, including Defender ATP. 
@@ -32,7 +34,3 @@ To test it out of the box
 - run it and follow the prompts or ./DripLoader.exe <target_pid> <delay_per_step_ms>
 
 I attached an example `MessageBox` blob for your pleasure, be aware though it's size is unrealistically small for a payload.
-
-ASCII arts are essential for tools like this to work
-![loader](https://user-images.githubusercontent.com/32537788/116489666-cabe6180-a895-11eb-99af-e6b3143f84b1.gif)
-
